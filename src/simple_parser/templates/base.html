@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <title>{% block title %}Simple Parser{% endblock %}</title>
+
+    {% block meta %}
+    <meta charset="utf-8">
+    <meta name="description" content="{{ page.description }}">
+    {% endblock %}
+
+    {% block styles %}
+    <style>
+      {% include "root.css" %}
+    </style>
+    {% endblock %}
+
+  </head>
+  <body>
+    {% block content %}{% endblock %}
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,67 @@
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### Vim ###
+*~
+*.swp
+*.swo
+
+### SublimeText ###
+# cache files for sublime text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# workspace files are user-specific
+*.sublime-workspace
+
+# project files should be checked into the repository, unless a significant
+# proportion of contributors will probably not be using SublimeText
+# *.sublime-project
+
+### Pycharm ###
+.idea/*
+
+# Provided default Pycharm Run/Debug Configurations should be tracked by git
+# In case of local modifications made by Pycharm, use update-index command
+# for each changed file, like this:
+# git update-index --assume-unchanged .idea/simple_parser.iml
+!.idea/runConfigurations/
+!.idea/simple_parser.iml
+!.idea/vcs.xml
+!.idea/webResources.xml
+
+
+# Basics
+*.py[co]
+__pycache__
+
+# Translations
+*.mo
+*.pot
+
+# Cache
+.cache/
+
+# PyEnv
+.python-version
+
+# Virtual environments
+.env
+
+# Logs
+logs/
+pip-log.txt
+npm-debug.log*
+
+# Celery
+celerybeat-schedule
+
+# Coverage
+.coverage*
+htmlcov
+!.coveragerc
+
+local_settings.py

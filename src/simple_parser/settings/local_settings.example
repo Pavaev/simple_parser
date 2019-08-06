@@ -1,0 +1,1 @@
+from simple_parser.settings.production import *  # noqa
