@@ -43,7 +43,10 @@ THIRD_PARTY_APPS = [
     'bootstrap3',
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = [
+    'simple_parser.account',
+    'simple_parser.bookmark',
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 

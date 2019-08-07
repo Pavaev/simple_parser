@@ -9,7 +9,7 @@ urlpatterns = [
     path(
         'login',
         views.LoginView.as_view(
-            template_name='auth/login.html',
+            template_name='account/login.html',
             redirect_authenticated_user=True,
         ),
         name='login',

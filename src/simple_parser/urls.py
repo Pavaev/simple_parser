@@ -4,12 +4,12 @@ from django.urls import path, include
 urlpatterns = []
 
 # Auth
-from simple_parser.auth.urls import urlpatterns as auth_urlpatterns
+from simple_parser.account.urls import urlpatterns as auth_urlpatterns
 urlpatterns += auth_urlpatterns
 
-# Parsing
-from simple_parser.parsing.urls import urlpatterns as parsing_urlpatterns
-urlpatterns += parsing_urlpatterns
+# Bookmark
+from simple_parser.bookmark.urls import urlpatterns as bookmark_urlpatterns
+urlpatterns += bookmark_urlpatterns
 
 
 if settings.DEBUG:
