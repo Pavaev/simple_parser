@@ -4,7 +4,7 @@ from celery import Celery
 from django.conf import settings
 
 if not settings.configured:
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'simple_parser.settings.local')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'simple_parser.settings.local_setttings')
 
 
 app = Celery('simple_parser')

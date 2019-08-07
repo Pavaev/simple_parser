@@ -1,1 +1,1 @@
-default_app_config = 'simple_parser.parsing.apps.AuthConfig'
+default_app_config = 'simple_parser.parsing.apps.ParsingConfig'

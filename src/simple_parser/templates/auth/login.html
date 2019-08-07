@@ -1,11 +1,16 @@
 {% extends "base.html" %}
+{% load bootstrap3 %}
 
 {% block title %}Авторизация в {{ block.super }}{% endblock %}
 
 {% block content %}
-<form method="post">
-  {% csrf_token %}
-  {{ form }}
-  <input type="submit" value="Submit">
-</form>
+    <div class="col-xs-offset-4 col-xs-3">
+        <form method="post">
+            <h2 class="text-center">Вход</h2>
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% bootstrap_button "Войти" button_type="submit" size="md" extra_classes="center-block" button_class="btn-primary" %}
+            <p style="margin-top: 10px" class="text-center"><a href="{% url 'register' %}">Регистрация</a></p>
+        </form>
+    </div>
 {% endblock %}

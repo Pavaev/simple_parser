@@ -32,10 +32,10 @@ CACHES = {
 
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=[])  # noqa
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 
-LOGOUT_URL = '/logout/'
+LOGOUT_URL = '/logout'
 LOGOUT_REDIRECT_URL = '/'
 
 SESSION_COOKIE_SECURE = True

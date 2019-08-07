@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Регистрация в {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="col-xs-offset-4 col-xs-3">
+        <form method="post">
+            <h2 class="text-center">Регистрация</h2>
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% bootstrap_button "Зарегистрироваться" button_type="submit" size="md" extra_classes="center-block" button_class="btn-primary" %}
+        </form>
+    </div>
+{% endblock %}

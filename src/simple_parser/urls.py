@@ -1,23 +1,11 @@
 from django.conf import settings
-from django.contrib.auth import views
 from django.urls import path, include
 
-urlpatterns = [
-    path(
-        'login',
-        views.LoginView.as_view(
-            template_name='auth/login.html',
-            redirect_authenticated_user=True,
-        ),
-        name='login',
-    ),
-    path(
-        'logout',
-        views.logout_then_login,
-        name='logout',
-    ),
+urlpatterns = []
 
-]
+# Auth
+from simple_parser.auth.urls import urlpatterns as auth_urlpatterns
+urlpatterns += auth_urlpatterns
 
 # Parsing
 from simple_parser.parsing.urls import urlpatterns as parsing_urlpatterns

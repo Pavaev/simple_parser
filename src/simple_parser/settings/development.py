@@ -17,10 +17,10 @@ ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['*'])  # noqa
 
 INTERNAL_IPS = env.list('DJANGO_INTERNAL_IPS', default=['127.0.0.1', '10.0.2.2'])
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 
-LOGOUT_URL = '/logout/'
+LOGOUT_URL = '/logout'
 LOGOUT_REDIRECT_URL = '/'
 
 
