@@ -1,3 +1,5 @@
+beautifulsoup4==4.7.1
+extruct==0.7.3
 psycopg2-binary>=2.8
 pytz==2019.2
 url-normalize==1.4.1
