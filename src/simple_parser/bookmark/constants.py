@@ -1,17 +1,6 @@
 from enumfields import Enum
 
 
-class BookmarkStates(Enum):
-    NEW = 'new'
-    FINISHED = 'finished'
-    ERROR = 'error'
-
-    class Labels:
-        NEW = 'Добавлено'
-        FINISHED = 'Завершено'
-        ERROR = 'Ошибка'
-
-
 class EmbeddedMetadataTypes(Enum):
     DEFAULT = 'default'
     OPENGRAPH = 'opengraph'

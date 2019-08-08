@@ -2,18 +2,12 @@ from django.conf import settings
 from django.db import models
 from enumfields import EnumField
 
-from .constants import BookmarkStates, EmbeddedMetadataTypes
+from .constants import EmbeddedMetadataTypes
 
 
 class Bookmark(models.Model):
     url = models.URLField(
         'адрес сайта',
-    )
-    state = EnumField(
-        BookmarkStates,
-        verbose_name='статус',
-        max_length=10,
-        default=BookmarkStates.NEW,
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -24,6 +18,10 @@ class Bookmark(models.Model):
     date_created = models.DateTimeField(
         'дата создания',
         auto_now_add=True,
+    )
+    is_available = models.BooleanField(
+        'сайт доступен',
+        default=True,
     )
 
     class Meta:
@@ -43,14 +41,14 @@ class Bookmark(models.Model):
         return self.url
 
     def __repr__(self):
-        return '<{}: id={}, url={}, state={}, user_id={}, date_created={}>'.format(
-            self.__class__.__name__, self.id, self.url, self.state,
-            self.user_id, self.date_created,
+        return '<{}: id={}, url={}, user_id={}, date_created={}, is_available={}>'.format(
+            self.__class__.__name__, self.id, self.url, self.user_id,
+            self.date_created, self.is_available,
         )
 
 
 # Для расширяемости вынесено в отдельную модель. Например, если будет
-# необходимо хранить метаданные сразу нескольких типов
+# необходимо хранить метаданные сразу нескольких типов для закладки
 class EmbeddedMetadata(models.Model):
     type = EnumField(
         EmbeddedMetadataTypes,
@@ -69,7 +67,7 @@ class EmbeddedMetadata(models.Model):
         'URL favicon',
         blank=True,
     )
-    bookmark = models.ForeignKey(
+    bookmark = models.OneToOneField(
         'Bookmark',
         verbose_name='закладка',
         related_name='embedded_metadata',
@@ -83,12 +81,12 @@ class EmbeddedMetadata(models.Model):
     class Meta:
         verbose_name = 'встроенные метаданные'
         verbose_name_plural = 'встроенные метаданные'
-        constraints = [
-            models.UniqueConstraint(
-                fields=['bookmark', 'type'],
-                name='unique_bookmark_embedded_metadata_type',
-            ),
-        ]
+        # constraints = [
+        #     models.UniqueConstraint(
+        #         fields=['bookmark', 'type'],
+        #         name='unique_bookmark_embedded_metadata_type',
+        #     ),
+        # ]
 
     def __str__(self):
         return self.get_display_name()
