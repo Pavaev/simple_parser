@@ -42,6 +42,11 @@ SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_SECURE = True
 
+LOGGING['handlers']['console'] = {  # noqa
+    'level': 'DEBUG',
+    'class': 'logging.StreamHandler',
+    'formatter': 'verbose',
+}
 
 # Celery settings
 
