@@ -5,6 +5,11 @@ from .models import Bookmark
 
 
 class BookmarkForm(forms.ModelForm):
+    url = forms.URLField(
+        label='Адрес сайта', max_length=255,
+        widget=forms.TextInput(attrs={'placeholder': "https://http"})
+    )
+
     class Meta:
         model = Bookmark
         fields = ('url',)
