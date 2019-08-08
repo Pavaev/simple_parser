@@ -1,5 +1,40 @@
 {% extends 'base.html' %}
+{% load bootstrap3 %}
 
 {% block content %}
-Главная
+
+    <div class="col-xs-offset-3 col-xs-6">
+        <p style="margin-top: 20px" class="text-right">
+            <a href="{% url 'logout' %}">Выйти</a></p>
+        <div style="margin-top: 20px">
+            {% include 'bookmark_form.html' %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Favicon</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for bookmark in bookmarks %}
+                    <tr
+                            {% if not bookmark.is_available %} class="warning" {% endif %}>
+                        <td>
+                            <a target="_blank" href="{{ bookmark.url }}"> {{ bookmark.url }}</a>
+                        </td>
+                        <td> {{ bookmark.embedded_metadata.title }}</td>
+                        <td>{{ bookmark.embedded_metadata.description }}</td>
+                        <td>
+                            <a href="{{ bookmark.embedded_metadata.favicon_url }}" target="_blank">
+                                <img src="{{ bookmark.embedded_metadata.favicon_url }}" width="200" style="object-fit: cover">
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

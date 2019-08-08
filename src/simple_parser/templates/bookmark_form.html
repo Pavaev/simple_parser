@@ -1,0 +1,14 @@
+{% load bootstrap3 %}
+{% bootstrap_javascript jquery=1 %}
+
+{% block content %}
+
+    {% bootstrap_messages %}
+    <form role="form" method="POST" action="{% url 'create-bookmark' %}">
+        {% csrf_token %}
+        {% bootstrap_form create_bookmark_form %}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
+    </form>
+{% endblock content %}
