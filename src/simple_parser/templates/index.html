@@ -28,13 +28,16 @@
                         <td>{{ bookmark.embedded_metadata.description }}</td>
                         <td>
                             <a href="{{ bookmark.embedded_metadata.favicon_url }}" target="_blank">
-                                <img src="{{ bookmark.embedded_metadata.favicon_url }}" width="200" style="object-fit: cover">
+                                <img src="{{ bookmark.embedded_metadata.favicon_url }}" width="100" style="object-fit: cover">
                             </a>
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
+            {% if is_paginated %}
+                {% bootstrap_pagination page_obj %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

@@ -8,11 +8,14 @@ from .forms import BookmarkForm
 
 class IndexView(ListView):
     template_name = 'index.html'
+    paginate_by = 5
 
     context_object_name = 'bookmarks'
 
     def get_queryset(self):
-        return self.request.user.bookmarks.select_related('embedded_metadata')
+        return self.request.user.bookmarks.select_related(
+            'embedded_metadata',
+        ).order_by('-date_created')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
