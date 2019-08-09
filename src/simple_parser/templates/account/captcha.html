@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Captcha{% endblock %}
+
+{% block content %}
+    <div class="col-xs-offset-5 col-xs-2" style="margin-top: 40px">
+        <form method="post">
+            <h3 class="text-center">Превышено число попыток входа</h3>
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% bootstrap_button "Отправить" button_type="submit" size="md" extra_classes="center-block" button_class="btn-primary" %}
+        </form>
+    </div>
+{% endblock %}

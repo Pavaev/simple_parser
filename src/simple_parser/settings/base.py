@@ -40,6 +40,8 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'axes',
+    'captcha',
     'bootstrap3',
 ]
 
@@ -58,6 +60,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
+    # It only formats user lockout messages and renders Axes lockout responses
+    # on failed user authentication attempts from login views.
+    # If you do not want Axes to override the authentication response
+    # you can skip installing the middleware and use your own views.
+    'axes.middleware.AxesMiddleware',
 ]
 
 ROOT_URLCONF = 'simple_parser.urls'
@@ -95,6 +104,12 @@ DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
+
+AUTHENTICATION_BACKENDS = [
+    # AxesBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -176,6 +191,10 @@ LOGGING = {
         },
     },
 }
+
+# Axes
+AXES_RESET_ON_SUCCESS = True
+AXES_LOCKOUT_URL = '/locked'
 
 
 # Parsing
