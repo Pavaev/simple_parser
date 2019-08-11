@@ -56,9 +56,12 @@ class OpenGraphParser(BaseParser):
     Parser based on opengraph.
     See: https://ogp.me
     """
-    def parse(self):
+    def _get_extracted_data(self):
         extracted_data = extruct.extract(self.html, self.url, errors='ignore', syntaxes=['opengraph'], uniform=True)
-        og_data = extracted_data['opengraph']
+        return extracted_data['opengraph']
+
+    def parse(self):
+        og_data = self._get_extracted_data()
         if og_data:
             self._parsed_data = og_data[0]
 
@@ -75,49 +78,64 @@ class OpenGraphParser(BaseParser):
         return self._parsed_data.get('og:image')
 
 
-class JSONLDParser(BaseParser):
-    """
-    Parser based on json-ld.
-    See: https://json-ld.org
-    """
-    def parse(self):
-        extracted_data = extruct.extract(self.html, self.url, errors='ignore', syntaxes=['json-ld'], uniform=True)
-        jsld_data = extracted_data['json-ld']
-        for jsld_item in jsld_data:
-            # Крайне проблематично узнать, какой из объектов нужен
-            if set(jsld_item.keys()) & {'name', 'headline', 'description', 'about'}:
-                self._parsed_data = jsld_item
-                break
-
-    @property
-    def title(self):
-        return self._parsed_data.get('name') or self._parsed_data.get('headline')
-
-    @property
-    def description(self):
-        return self._parsed_data.get('description') or self._parsed_data.get('about')
-
-    @property
-    def favicon_url(self):
-        image = self._parsed_data.get('image')
-        if isinstance(image, dict):
-            image = image.get('url')
-        return image
-
-
 class SchemaOrgParser(BaseParser):
     """
     Parser based on schema.org.
     See: http://schema.org
     """
-    def parse(self):
+    def _get_extracted_data(self):
         extracted_data = extruct.extract(self.html, self.url, errors='ignore', syntaxes=['microdata'], uniform=True)
-        so_data = extracted_data['microdata']
-        for so_item in so_data:
-            # Крайне проблематично узнать, какой из объектов нужен
-            if set(so_item.keys()) & {'name', 'headline', 'description', 'about'}:
-                self._parsed_data = so_item
+        return extracted_data['microdata']
+
+    def parse(self):
+        data = self._get_extracted_data()
+        main_entity_data = {}
+        webpage_data = {}
+        website_data = {}
+
+        # Если item всего один, то выбор невелик, и считаем, что это то, что
+        # нам нужно
+        if len(data) == 1:
+            self._parsed_data = data[0]
+            return
+
+        # Пытаемся достать по mainEntity или mainEntityOfPage
+        for item in data:
+            lower_keys_tuples = list(map(lambda x: (x[0].lower(), x[1]), item.items()))
+            for k, v in lower_keys_tuples:
+
+                # https://schema.org/mainEntity
+                if k == 'mainentity':
+                    main_entity_data = v
+                    break
+
+                # https://schema.org/mainEntityOfPage
+                elif k == 'mainentityofpage':
+                    # может быть строка или словарь
+                    url = v
+                    # нашелся сайт, где возможен и bool
+                    # https://gtxtymt.xyz/blog/json-ld-base-structure-for-blog-on-laravel
+                    if v is True:
+                        main_entity_data = item
+                        break
+
+                    if isinstance(v, dict):
+                        url = v.get('id', v.get('@id', ''))
+                    if url == self.url:
+                        main_entity_data = item
+
+            if main_entity_data:
                 break
+
+            # Если mainEntity и mainEntityOfPage не будет, ищем тип webpage или
+            # хотя бы website
+            so_item_type = item['@type'].lower()
+            if so_item_type == 'webpage':
+                webpage_data = item
+            elif so_item_type == 'website':
+                website_data = item
+
+        self._parsed_data = main_entity_data or webpage_data or website_data
 
     @property
     def title(self):
@@ -131,5 +149,18 @@ class SchemaOrgParser(BaseParser):
     def favicon_url(self):
         image = self._parsed_data.get('image')
         if isinstance(image, dict):
-            image = image.get('url')
+            image = image.get('contentUrl', image.get('url'))
+            if image and isinstance(image, list):
+                image = image[0]
         return image
+
+
+class JSONLDParser(SchemaOrgParser):
+    """
+    Parser based on json-ld using schema.org dictionary
+    See: https://json-ld.org
+    """
+
+    def _get_extracted_data(self):
+        extracted_data = extruct.extract(self.html, self.url, errors='ignore', syntaxes=['json-ld'], uniform=True)
+        return extracted_data['json-ld']
