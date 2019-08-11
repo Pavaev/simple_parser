@@ -1,3 +1,4 @@
 -r ./base.txt
 
+django-heroku==0.3.1
 gunicorn==19.9.0

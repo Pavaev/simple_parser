@@ -38,7 +38,7 @@ except ImportError:
 else:
     INSTALLED_APPS += ['debug_toolbar']  # noqa
 
-    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']  # noqa
+    MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware',)  # noqa
 
     DEBUG_TOOLBAR_CONFIG = {
         'DISABLE_PANELS': ['debug_toolbar.panels.redirects.RedirectsPanel'],

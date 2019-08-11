@@ -198,7 +198,7 @@ AXES_LOCKOUT_URL = '/locked'
 
 
 # Parsing
-DEFAULT_PARSER = 'opengraph'
+DEFAULT_PARSER = env.str('DEFAULT_PARSER', default='default')
 
 # Celery settings
 
@@ -237,4 +237,12 @@ CELERY_TASK_DEFAULT_ROUTING_KEY = 'default'
 
 CELERY_TASK_QUEUES = [
     Queue('default', routing_key='default'),
+    Queue('bookmark', routing_key='bookmark'),
 ]
+
+try:
+    import django_heroku
+except ImportError:
+    pass
+else:
+    django_heroku.settings(locals())
