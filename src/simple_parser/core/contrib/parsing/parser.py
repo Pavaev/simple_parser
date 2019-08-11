@@ -5,6 +5,9 @@ from bs4 import BeautifulSoup
 
 
 class BaseParser:
+    """
+    If you want to create your custom parser, you should extend this base class
+    """
     def __init__(self, html, url=None):
         self.html = html
         self.url = url
@@ -15,6 +18,9 @@ class BaseParser:
 
 
 class DefaultParser(BaseParser):
+    """
+    Default parser based on <meta> tags
+    """
 
     def parse(self):
         bs = BeautifulSoup(self.html)
@@ -46,7 +52,10 @@ class DefaultParser(BaseParser):
 
 
 class OpenGraphParser(BaseParser):
-
+    """
+    Parser based on opengraph.
+    See: https://ogp.me
+    """
     def parse(self):
         extracted_data = extruct.extract(self.html, self.url, errors='ignore', syntaxes=['opengraph'], uniform=True)
         og_data = extracted_data['opengraph']
@@ -67,7 +76,10 @@ class OpenGraphParser(BaseParser):
 
 
 class JSONLDParser(BaseParser):
-
+    """
+    Parser based on json-ld.
+    See: https://json-ld.org
+    """
     def parse(self):
         extracted_data = extruct.extract(self.html, self.url, errors='ignore', syntaxes=['json-ld'], uniform=True)
         jsld_data = extracted_data['json-ld']
@@ -94,6 +106,10 @@ class JSONLDParser(BaseParser):
 
 
 class SchemaOrgParser(BaseParser):
+    """
+    Parser based on schema.org.
+    See: http://schema.org
+    """
     def parse(self):
         extracted_data = extruct.extract(self.html, self.url, errors='ignore', syntaxes=['microdata'], uniform=True)
         so_data = extracted_data['microdata']
