@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
+from .constants import EmbeddedMetadataTypes
 from .forms import BookmarkForm
 
 
@@ -24,6 +25,7 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['create_bookmark_form'] = BookmarkForm()
+        context['parser'] = EmbeddedMetadataTypes(getattr(settings, 'DEFAULT_PARSER', EmbeddedMetadataTypes.DEFAULT)).label
         return context
 
 
@@ -50,7 +52,7 @@ class CreateBookmarkView(FormView):
         messages.success(
             self.request,
             'URL "{}" успешно добавлен. Результат парсинга будет доступен '
-            'после обновления страницы. Парсер: {}'.format(bookmark.url, settings.DEFAULT_PARSER),
+            'после обновления страницы.'.format(bookmark.url),
         )
         return super().form_valid(form)
 

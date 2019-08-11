@@ -6,6 +6,8 @@
     <div class="col-xs-offset-3 col-xs-6">
         <p style="margin-top: 20px" class="text-right">
             <a href="{% url 'logout' %}">Выйти</a></p>
+    <p style="margin-top: 20px" class="text-left">
+            Парсер: {{ parser }}</p>
         <div style="margin-top: 20px">
             {% include 'bookmark_form.html' %}
             <table class="table table-striped">
@@ -22,14 +24,18 @@
                     <tr
                             {% if not bookmark.is_available %} class="warning" {% endif %}>
                         <td>
-                            <a target="_blank" href="{{ bookmark.url }}"> {{ bookmark.url }}</a>
+                            {{ bookmark.url | urlizetrunc:45 }}
                         </td>
                         <td> {{ bookmark.embedded_metadata.title }}</td>
                         <td>{{ bookmark.embedded_metadata.description }}</td>
                         <td>
-                            <a href="{{ bookmark.embedded_metadata.favicon_url }}" target="_blank">
-                                <img src="{{ bookmark.embedded_metadata.favicon_url }}" width="100" style="object-fit: cover">
-                            </a>
+                            {% if bookmark.embedded_metadata.favicon_url != '-не найдено-' %}
+                                <a href="{{ bookmark.embedded_metadata.favicon_url }}" target="_blank">
+                                    <img src="{{ bookmark.embedded_metadata.favicon_url }}" width="100" style="object-fit: cover">
+                                </a>
+                            {% else %}
+                                {{ bookmark.embedded_metadata.favicon_url }}
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
