@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.utils.text import Truncator
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
@@ -52,7 +53,7 @@ class CreateBookmarkView(FormView):
         messages.success(
             self.request,
             'URL "{}" успешно добавлен. Результат парсинга будет доступен '
-            'после обновления страницы.'.format(bookmark.url),
+            'после обновления страницы.'.format(Truncator(bookmark.url).chars(45)),
         )
         return super().form_valid(form)
 
