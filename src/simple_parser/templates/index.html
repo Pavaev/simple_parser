@@ -26,17 +26,23 @@
                         <td>
                             {{ bookmark.url | urlizetrunc:45 }}
                         </td>
-                        <td> {{ bookmark.embedded_metadata.title }}</td>
-                        <td>{{ bookmark.embedded_metadata.description }}</td>
-                        <td>
-                            {% if bookmark.embedded_metadata.favicon_url != '-не найдено-' %}
-                                <a href="{{ bookmark.embedded_metadata.favicon_url }}" target="_blank">
-                                    <img src="{{ bookmark.embedded_metadata.favicon_url }}" width="100" style="object-fit: cover">
-                                </a>
-                            {% else %}
-                                {{ bookmark.embedded_metadata.favicon_url }}
-                            {% endif %}
-                        </td>
+                        {% if bookmark.embedded_metadata %}
+                            <td> {{ bookmark.embedded_metadata.title|default:"-не найдено-" }}</td>
+                            <td>{{ bookmark.embedded_metadata.description|default:"-не найдено-" }}</td>
+                            <td>
+                                {% if bookmark.embedded_metadata.favicon_url %}
+                                    <a href="{{ bookmark.embedded_metadata.favicon_url }}" target="_blank">
+                                        <img src="{{ bookmark.embedded_metadata.favicon_url }}" width="100" style="object-fit: cover">
+                                    </a>
+                                {% else %}
+                                    {{ bookmark.embedded_metadata.favicon_url|default:"-не найдено-" }}
+                                {% endif %}
+                            </td>
+                        {% else %}
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>
