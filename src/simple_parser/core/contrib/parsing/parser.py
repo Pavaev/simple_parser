@@ -75,7 +75,10 @@ class OpenGraphParser(BaseParser):
 
     @property
     def favicon_url(self):
-        return self._parsed_data.get('og:image')
+        image = self._parsed_data.get('og:image')
+        if not image:
+            return None
+        return urljoin(self.url, image)
 
 
 class SchemaOrgParser(BaseParser):
@@ -152,7 +155,9 @@ class SchemaOrgParser(BaseParser):
             image = image.get('contentUrl', image.get('url'))
             if image and isinstance(image, list):
                 image = image[0]
-        return image
+        if not isinstance(image, str):
+            return None
+        return urljoin(self.url, image)
 
 
 class JSONLDParser(SchemaOrgParser):
