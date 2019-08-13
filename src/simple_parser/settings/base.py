@@ -23,7 +23,6 @@ LOGS_DIR = env.get_value('SIMPLE_PARSER_LOGS_DIR', cast=Path, default=BASE_DIR.j
 if not LOGS_DIR.exists():
     LOGS_DIR.mkdir()
 
-
 # Django settings
 
 DEBUG = env.bool('DJANGO_DEBUG', False)
@@ -31,6 +30,7 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 # Application definition
 
 DJANGO_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = []
@@ -11,6 +12,9 @@ urlpatterns += auth_urlpatterns
 from simple_parser.bookmark.urls import urlpatterns as bookmark_urlpatterns
 urlpatterns += bookmark_urlpatterns
 
+urlpatterns += [
+    path('admin/', admin.site.urls),
+]
 
 if settings.DEBUG:
     from django.conf.urls.static import static  # noqa
