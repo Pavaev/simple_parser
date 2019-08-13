@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.text import Truncator
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
@@ -36,10 +37,12 @@ class CreateBookmarkView(FormView):
     """
     form_class = BookmarkForm
     template_name = 'bookmark_form.html'
-    success_url = '/'
+
+    def get_success_url(self):
+        return reverse('index')
 
     def get(self, request, *args, **kwargs):
-        return redirect('/')
+        return redirect(reverse('index'))
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -59,7 +62,7 @@ class CreateBookmarkView(FormView):
 
     def form_invalid(self, form):
         messages.error(self.request, form.errors['url'][0])
-        return redirect('/',  self.get_context_data())
+        return redirect(reverse('index'),  self.get_context_data())
 
 
 index = IndexView.as_view()
