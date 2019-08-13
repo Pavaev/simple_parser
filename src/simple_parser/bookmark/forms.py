@@ -6,7 +6,8 @@ from .models import Bookmark
 
 class BookmarkForm(forms.ModelForm):
     url = forms.URLField(
-        label='Адрес сайта', max_length=255,
+        label='Адрес сайта',
+        max_length=500,
         widget=forms.TextInput(attrs={'placeholder': "https://http"})
     )
 

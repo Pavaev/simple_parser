@@ -8,6 +8,7 @@ from .constants import EmbeddedMetadataTypes
 class Bookmark(models.Model):
     url = models.URLField(
         'адрес сайта',
+        max_length=500,
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -66,6 +67,7 @@ class EmbeddedMetadata(models.Model):
     favicon_url = models.URLField(
         'URL favicon',
         blank=True,
+        max_length=500,
     )
     bookmark = models.OneToOneField(
         'Bookmark',
