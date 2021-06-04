@@ -5,7 +5,7 @@ pytz==2019.2
 Pillow==6.1.0
 url-normalize==1.4.1
 
-Django==2.2.4
+Django==2.2.21
 celery==4.3.0
 
 django-axes==5.0.12
