@@ -2,7 +2,7 @@ beautifulsoup4==4.7.1
 extruct==0.7.3
 psycopg2-binary>=2.8
 pytz==2019.2
-Pillow==6.1.0
+Pillow==9.0.0
 url-normalize==1.4.1
 
 Django==2.2.4
